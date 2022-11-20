@@ -11,3 +11,20 @@
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
+var apiKey = "28fa50af6fcacf05e7ddaa69610333c7";
+var fiveKey ="58f8763bd14af70e49cec94f73742629";
+var city;
+var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
+var buttonA = document.querySelector('#Search');
+var cityName = document.querySelector('#cityName');
+localStorage.setItem("city", 'buttonA');
+
+city = buttonA
+console.log(city)
+function populate(){
+    fetch("queryURL")
+    .then((response) => response.json())
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));
+}
+populate()
