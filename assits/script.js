@@ -16,15 +16,19 @@ var fiveKey ="58f8763bd14af70e49cec94f73742629";
 var city;
 var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=" + apiKey;
 var buttonA = document.querySelector('#Search');
+var scity = document.querySelector('scity');
 var cityName = document.querySelector('#cityName');
-localStorage.setItem("city", 'buttonA');
 
-city = buttonA
-console.log(city)
+scity.addEventListener('click', setLocation);
+function setLocation() {
+    buttonA.push(city);
+}
+
+console.log(buttonA)
 function populate(){
     fetch("queryURL")
     .then((response) => response.json())
     .then((response) => console.log(response))
     .catch((err) => console.error(err));
 }
-populate()
+//populate()
