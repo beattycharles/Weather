@@ -36,23 +36,23 @@ function getcords(input){
     var cordApi = `${queryURL}/geo/1.0/direct?q=${input}&limit=5&appid=${apiKey}`;
     fetch(cordApi)
     .then(function (res) {
+        console.log(res);
         return res.json();
     })
-    .then(function (data) {
-        if (!input[0]) {
-            alert('Location not found');
-        } else {
-            populate();
-        }
-    })
-    .catch(function (err) {
-        console.error(err);
-    });
-    console.log(cordApi);
+    // .then(function (data) {
+    //     if (!input[0]) {
+    //         alert('Location not found');
+    //     } else {
+    //         populate();
+    //     }
+    // })
+    // .catch(function (err) {
+    //     console.error(err);
+    // });
 }
 scity.addEventListener("click", getcords);
 
 
-//localStorage.set("city");
+//localStorage.set("input");
 //for (var i = 0; i < 5; i++)
 //append btn for history items
