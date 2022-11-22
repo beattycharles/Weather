@@ -13,42 +13,46 @@
 // THEN I am again presented with current and future conditions for that city
 var apiKey = "321bc0050e72840da90a05b26a6fc827";
 var fiveKey = "58f8763bd14af70e49cec94f73742629";
-var field = 'Hainseport'; //document.querySelector("#searchInput");
+var field = "Trenton"; //document.querySelector("#searchInput");
 var buttonA = document.querySelector("#Search");
 var scity = document.querySelector("#scity");
 var cityName = document.querySelector("#cityName");
 var history = [];
 var queryURL = `https://api.openweathermap.org`;
-function populate() {
-//   var { lat };
-//   var { lon };
-console.log(getcords);
-  var cweather = `${queryURL}/data/2.5/forecast?lat=${lat}&lon=${lon}&units=imperial&appid=${apiKey}`;
 
-  fetch(cweather)
+function getcords() {
+  var cordApi = `${queryURL}/geo/1.0/direct?q=${field}&limit=5&appid=${apiKey}`;
+ fetch(cordApi)
+.then(function(res) {
+    return res.json();
+  })
+.then(function(geoData){
+    console.log(geoData);
+getcords(geoData[0].lat, geoData[0].lon);
+})
+}; 
+// .then(function (field) {
+//     // if (!field[0]) {
+//     //     alert('Location not found');
+//     } else {
+//     populate();
+//     }
+//     })
+//     .catch(function (err) {
+//     console.error(err);
+//     });
+    
+// };
+
+ function populate(lat, lon) {
+ var lat = getcords.lat;
+ var lon = getcords.lon;
+    var currantWeather ="https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
+    fetch(currantWeather)
     .then((response) => response.json())
     .then((response) => console.log(response))
     .catch((err) => console.error(err));
-}
-
-function getcords() {
-    console.log(field);
-  var cordApi = `${queryURL}/geo/1.0/direct?q=${field}&limit=5&appid=${apiKey}`;
- // var cordApi = `http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid=${apiKey}`;
- fetch(cordApi)
-.then(function (res) {
-    return res.json();
-  })
-  .then(function (data) {
-      if (!field[0]) {
-          alert('Location not found');
-      } else {
-          populate();
-      }
-  })
-  .catch(function (err) {
-      console.error(err);
-  });
+    console.log(getcords);
 }
 scity.addEventListener("click", getcords);
 
