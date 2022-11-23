@@ -12,24 +12,25 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 var apiKey = "321bc0050e72840da90a05b26a6fc827";
-var field = "trenton"//document.querySelector('#searchInput').value;
-var buttonA = document.querySelector("#Search");
 var scity = document.querySelector("#scity");
 var cityName = document.querySelector("#mainCityName");
 var history = [];
 var queryURL = `https://api.openweathermap.org`;
 
-function getcords() {
+function getcords(event) {
   // var cordApi = `${queryURL}/geo/1.0/direct?q=${field}&limit=5&appid=${apiKey}`;
-
+  event.preventDefault();
+  var field = document.querySelector("#searchInput").value;
+  console.log(field);
   fetch(
-   // `https://api.openweathermap.org/data/2.5/weather?q=${field}&limit=5&appid=${apiKey}`
-     "https://api.openweathermap.org/data/2.5/weather?q=" +
-       field +
+    // `https://api.openweathermap.org/data/2.5/weather?q=${field}&limit=5&appid=${apiKey}`
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+      field +
       "&appid=" +
       apiKey
   )
     .then(function (response) {
+      console.log(response);
       return response.json();
     })
     .then(function (data) {
@@ -37,9 +38,11 @@ function getcords() {
       let lat = data.coord.lat;
       let lon = data.coord.lon;
       console.log(lat, lon);
+      console.log(field);
+    })
+    .catch(function (error) {
+      console.log(error);
     });
-  //.catch(function (error) {
-  // console.log(error);
 }
 
 // .then(function (field) {
