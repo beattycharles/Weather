@@ -20,9 +20,11 @@
     <div class="container ml-0">
     <div class="row">
       <aside class="col-3 text-bg-info text-center">
-        <label for="Search"><h4>City and State</h4></label><br>
-        <input type="text" id="searchInput" name="City"><br>
+        <label for="Search"><h4>Weather for:</h4></label><br>
+        <form id="searchForm">
+        <input type="text" id="searchInput" placeholder="City Name"><br>
         <button id="scity">Search</button>
+        </form>
         <ul>
           <li id="cityName" class="1"></li>
           <li id="cityName" class="2"></li>
@@ -33,7 +35,7 @@
       </aside>
       <div class="container col-8 w-75 text-bg-primary">
       <main class=><ul>
-        <li id="cityName" class="cName"><h3>City Name</h3></li>
+        <li id="mainCityName" class="cName"><h3>City Name</h3></li>
         <li class="date"><h3>date</h3></li>
         <li class="icon"><h3>icon</h3></li>
         <li class="temp"><h3>Temp</h3></li>

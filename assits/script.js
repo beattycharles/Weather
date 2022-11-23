@@ -12,28 +12,39 @@
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
 var apiKey = "321bc0050e72840da90a05b26a6fc827";
-var fiveKey = "58f8763bd14af70e49cec94f73742629";
-var field = "Trenton"; //document.querySelector("#searchInput");
+var field = "trenton"//document.querySelector('#searchInput').value;
 var buttonA = document.querySelector("#Search");
 var scity = document.querySelector("#scity");
-var cityName = document.querySelector("#cityName");
+var cityName = document.querySelector("#mainCityName");
 var history = [];
 var queryURL = `https://api.openweathermap.org`;
 
 function getcords() {
-  var cordApi = `${queryURL}/geo/1.0/direct?q=${field}&limit=5&appid=${apiKey}`;
- fetch(cordApi)
-.then(function(res) {
-    return res.json();
-  })
-.then(function(geoData){
-    console.log(geoData);
-getcords(geoData[0].lat, geoData[0].lon);
-})
-}; 
+  // var cordApi = `${queryURL}/geo/1.0/direct?q=${field}&limit=5&appid=${apiKey}`;
+
+  fetch(
+   // `https://api.openweathermap.org/data/2.5/weather?q=${field}&limit=5&appid=${apiKey}`
+     "https://api.openweathermap.org/data/2.5/weather?q=" +
+       field +
+      "&appid=" +
+      apiKey
+  )
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      console.log(data);
+      let lat = data.coord.lat;
+      let lon = data.coord.lon;
+      console.log(lat, lon);
+    });
+  //.catch(function (error) {
+  // console.log(error);
+}
+
 // .then(function (field) {
-//     // if (!field[0]) {
-//     //     alert('Location not found');
+//     if (!field[0]) {
+//         alert('Location not found');
 //     } else {
 //     populate();
 //     }
@@ -41,19 +52,25 @@ getcords(geoData[0].lat, geoData[0].lon);
 //     .catch(function (err) {
 //     console.error(err);
 //     });
-    
+
 // };
 
- function populate(lat, lon) {
- var lat = getcords.lat;
- var lon = getcords.lon;
-    var currantWeather ="https://api.openweathermap.org/data/2.5/forecast?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=" + apiKey;
-    fetch(currantWeather)
-    .then((response) => response.json())
-    .then((response) => console.log(response))
-    .catch((err) => console.error(err));
-    console.log(getcords);
-}
+// function populate(lat, lon) {
+//   var lat = getcords.lat;
+//   var lon = getcords.lon;
+//   var currantWeather =
+//     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+//     lat +
+//     "&lon=" +
+//     lon +
+//     "&units=imperial&appid=" +
+//     apiKey;
+//   fetch(currantWeather)
+//     .then((response) => response.json())
+//     .then((response) => console.log(response))
+//     .catch((err) => console.error(err));
+//   console.log(getcords);
+// }
 scity.addEventListener("click", getcords);
 
 //localStorage.set("input");
