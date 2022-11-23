@@ -16,66 +16,74 @@ var scity = document.querySelector("#scity");
 var cityName = document.querySelector("#mainCityName");
 var history = [];
 var queryURL = `https://api.openweathermap.org`;
+dayjs.extend(window.dayjs_plugin_utc);
+dayjs.extend(window.dayjs_plugin_timezone);
 
 function getcords(event) {
   // var cordApi = `${queryURL}/geo/1.0/direct?q=${field}&limit=5&appid=${apiKey}`;
   event.preventDefault();
   var field = document.querySelector("#searchInput").value;
-  console.log(field);
   fetch(
     // `https://api.openweathermap.org/data/2.5/weather?q=${field}&limit=5&appid=${apiKey}`
     "https://api.openweathermap.org/data/2.5/weather?q=" +
       field +
-      "&appid=" +
+      "&units=imperial&appid=" +
       apiKey
   )
     .then(function (response) {
-      console.log(response);
       return response.json();
     })
     .then(function (data) {
       console.log(data);
-      let lat = data.coord.lat;
-      let lon = data.coord.lon;
+    lat = data.coord.lat;
+    lon = data.coord.lon;
+    weather = data.weather.icon
+      date = dayjs().format("M/D/YYYY");
+      icon = weather;
+      tempF = data.main.temp;
+      humidity = data.main.humidity;
+      windMph = data.wind.speed;
+      cityName = data.name;
       console.log(lat, lon);
-      console.log(field);
+      populate();
     })
     .catch(function (error) {
       console.log(error);
     });
 }
 
-// .then(function (field) {
-//     if (!field[0]) {
-//         alert('Location not found');
-//     } else {
-//     populate();
-//     }
-//     })
-//     .catch(function (err) {
-//     console.error(err);
-//     });
+function populate() {
+  var currantWeather =
+    "https://api.openweathermap.org/data/2.5/forecast?lat=" +
+    lat +
+    "&lon=" +
+    lon +
+    "&units=imperial&appid=" +
+    apiKey;
+  fetch(currantWeather)
+    .then((response) => response.json())
+    .then((response) => console.log(response))
+    .catch((err) => console.error(err));
+showInfo()
+}
 
-// };
+function showInfo(){
+var changeDate = document.querySelector(".date");
+var changeTemp = document.querySelector(".tempF");
+var changeIcon = document.querySelector(".icon");
+var changeHumid = document.querySelector(".humidity");
+var changeWind = document.querySelector(".windMph");
+var changeCity = document.querySelector(".cName");
 
-// function populate(lat, lon) {
-//   var lat = getcords.lat;
-//   var lon = getcords.lon;
-//   var currantWeather =
-//     "https://api.openweathermap.org/data/2.5/forecast?lat=" +
-//     lat +
-//     "&lon=" +
-//     lon +
-//     "&units=imperial&appid=" +
-//     apiKey;
-//   fetch(currantWeather)
-//     .then((response) => response.json())
-//     .then((response) => console.log(response))
-//     .catch((err) => console.error(err));
-//   console.log(getcords);
-// }
+changeCity.innerHTML = cityName.toUpperCase();
+changeDate.innerHTML = "Date: " + date;
+changeTemp.innerHTML = "Tempiture " + tempF + "f";
+changeHumid.innerHTML = "Humidity " + humidity;
+changeWind.innerHTML = "Wind Speed " + windMph + "mph";
+changeIcon.innerHTML = changeIcon;
+ // .textContent = dayjs(forecast.dt_txt).format('M/D/YYYY')
+}
 scity.addEventListener("click", getcords);
-
 //localStorage.set("input");
 //for (var i = 0; i < 5; i++)
 //append btn for history items
