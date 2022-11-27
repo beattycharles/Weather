@@ -37,9 +37,9 @@ function getcords(event) {
       console.log(data);
     lat = data.coord.lat;
     lon = data.coord.lon;
-    weather = data.weather.icon
+    iconUrl = `https://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+    iconDescription = data.weather[0].description;
       date = dayjs().format("M/D/YYYY");
-      icon = weather;
       tempF = data.main.temp;
       humidity = data.main.humidity;
       windMph = data.wind.speed;
@@ -80,8 +80,8 @@ changeDate.innerHTML = "Date: " + date;
 changeTemp.innerHTML = "Tempiture " + tempF + "f";
 changeHumid.innerHTML = "Humidity " + humidity;
 changeWind.innerHTML = "Wind Speed " + windMph + "mph";
-changeIcon.innerHTML = changeIcon;
- // .textContent = dayjs(forecast.dt_txt).format('M/D/YYYY')
+changeIcon.setAttribute('src', iconUrl);
+changeIcon.setAttribute('alt', iconDescription);
 }
 scity.addEventListener("click", getcords);
 //localStorage.set("input");
