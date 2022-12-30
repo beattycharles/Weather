@@ -1,12 +1,19 @@
 .text-purple{
     color: yellowgreen;
 }
+
 .ml-0{
     margin-left: 0;
 }
+
 ul{
     list-style: none;
 }
+
 .container{
 max-width: 100vw;
+}
+
+.bg-primary {
+    background-color: #2d3e50 !important;
 }
