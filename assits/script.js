@@ -127,7 +127,7 @@ humidityEl.setAttribute('class', 'card-text');
   forecastContainer.append(col);
 }
 
-function renderForecast(dailyForecast) {
+function renderForecast(response) {
   // Create unix timestamps for start and end of 5 day forecast
   var startDt = dayjs().add(1, 'day').startOf('day').unix();
   var endDt = dayjs().add(6, 'day').startOf('day').unix();
@@ -142,21 +142,21 @@ function renderForecast(dailyForecast) {
   forecastContainer.innerHTML = '';
   forecastContainer.append(headingCol);
 
-  for (var i = 0; i < dailyForecast.length; i++) {
+  for (var i = 0; i < response.list.length; i++) {
 
     // First filters through all of the data and returns only data that falls between one day after the current data and up to 5 days later.
-    if (dailyForecast[i].dt >= startDt && dailyForecast[i].dt < endDt) {
+    if (response[i].dt >= startDt && response[i].dt < endDt) {
 
       // Then filters through the data and returns only data captured at noon for each day.
-      if (dailyForecast[i].dt_txt.slice(11, 13) == "12") {
-        renderForecastCard(dailyForecast[i]);
+      if (response[i].dt_txt.slice(11, 13) == "12") {
+        renderForecastCard(response[i]);
       }
     }
   }
 }
 
-  function renderItems(data) {
-    renderForecast(data.list);
+  function renderItems() {
+    renderForecast(data);
   }
   
   function fetchWeather(location) {
