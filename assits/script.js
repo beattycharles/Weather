@@ -155,7 +155,7 @@ function renderForecast(response) {
 }
 
   function renderItems() {
-    renderForecast(response.list);
+    renderForecast();
   }
   
   function fetchWeather(location) {
