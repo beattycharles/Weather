@@ -46,7 +46,6 @@ function getcords(event) {
       cityName = data.name;
       console.log(lat, lon);
       populate();
-      renderItems();
     })
     .catch(function (error) {
       console.log(error);
@@ -66,7 +65,7 @@ function populate() {
     .then((response) => console.log(response))
     .catch((err) => console.error(err));
 showInfo()
-renderForecast()
+renderItems()
 }
 
 function showInfo(){
@@ -86,13 +85,13 @@ changeIcon.setAttribute('src', iconUrl);
 changeIcon.setAttribute('alt', iconDescription);
 }
 
-function renderForecastCard(forecast) {
+function renderForecastCard(response) {
   // variables for data from api
-  var iconUrl = `https://openweathermap.org/img/w/${forecast.weather[0].icon}.png`;
-  var iconDescription = forecast.weather[0].description;
-  var tempF = forecast.main.temp;
-  var humidity = forecast.main.humidity;
-  var windMph = forecast.wind.speed;
+  var iconUrl = `https://openweathermap.org/img/w/${response.weather[0].icon}.png`;
+  var iconDescription = response.weather[0].description;
+  var tempF = response.main.temp;
+  var humidity = response.main.humidity;
+  var windMph = response.wind.speed;
 
 var col = document.createElement('div');
 var card = document.createElement('div');
@@ -117,7 +116,7 @@ windEl.setAttribute('class', 'card-text');
 humidityEl.setAttribute('class', 'card-text');
 
   // Add content to elements
-  cardTitle.textContent = dayjs(forecast.dt_txt).format('M/D/YYYY');
+  cardTitle.textContent = dayjs(response.dt_txt).format('M/D/YYYY');
   weatherIcon.setAttribute('src', iconUrl);
   weatherIcon.setAttribute('alt', iconDescription);
   tempEl.textContent = `Temp: ${tempF} °F`;
@@ -142,7 +141,7 @@ function renderForecast(response) {
   forecastContainer.innerHTML = '';
   forecastContainer.append(headingCol);
 
-  for (var i = 0; i < response.list.length; i++) {
+  for (var i = 0; i < response.length; i++) {
 
     // First filters through all of the data and returns only data that falls between one day after the current data and up to 5 days later.
     if (response[i].dt >= startDt && response[i].dt < endDt) {
@@ -156,7 +155,7 @@ function renderForecast(response) {
 }
 
   function renderItems() {
-    renderForecast(data);
+    renderForecast(response.list);
   }
   
   function fetchWeather(location) {
@@ -171,7 +170,7 @@ function renderForecast(response) {
         return res.json();
       })
       .then(function (data) {
-        renderItems(city, data);
+        renderItems(response);
       })
       .catch(function (err) {
         console.error(err);
