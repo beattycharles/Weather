@@ -11,12 +11,13 @@
 // THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, the wind speed, and the humidity
 // WHEN I click on a city in the search history
 // THEN I am again presented with current and future conditions for that city
-var apiKey = "321bc0050e72840da90a05b26a6fc827";
+//var apiKey = "321bc0050e72840da90a05b26a6fc827";
+var apiKey = "28fa50af6fcacf05e7ddaa69610333c7";
 var scity = document.querySelector("#scity");
 var cityName = document.querySelector("#mainCityName");
 var forecastContainer = document.querySelector("#forecast");
-var history = [];
 var queryURL = `https://api.openweathermap.org`;
+
 
 var changeDate = document.querySelector(".date");
 var changeTemp = document.querySelector(".tempF");
@@ -35,13 +36,11 @@ var currIconDescription = null;
 var lat = null;
 var lon = null;
 
-
-// console.log(document.querySelector('#searchInput'));
 dayjs.extend(window.dayjs_plugin_utc);
 dayjs.extend(window.dayjs_plugin_timezone);
 
 function getCoords(event) {
-  event.preventDefault();
+  //event.preventDefault();
   var field = document.querySelector("#searchInput").value;
   fetch(
     "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -72,6 +71,15 @@ function getCoords(event) {
       console.log(error);
     });
 }
+function searchHistory (){
+  let citySave = JSON.parse(localStorage.getItem('search'))||[];
+  let listedCity = []
+  for (let i = 0; i < citySave.length; i++) {
+    listedCity += `<li class="options bg-secondary border border-dark border-start-0 border-end-0 text-center fs-4">${citySave[i]}</li>`
+  };
+  document.getElementById("history").innerHTML = listedCity;
+  }
+
 
 function fetchForecastWeatherAndRender(lat, lon, data) {
   var forecastWeather =
@@ -107,7 +115,7 @@ function renderForecastCard(data) {
 
   // variables for data from api
   var iconUrl = `https://openweathermap.org/img/w/${data.daily[i].weather[0].icon}.png`;
-  var iconDescription = data.weather[i].description;
+  var iconDescription = data.daily[i].weather[0].description;
   var tempF = data.daily[i].temp.day;
   var humidity = data.daily[i].humidity;
   var windMph = data.daily[1].wind_speed;
@@ -160,4 +168,12 @@ function renderForecast() {
   forecastContainer.append(headingCol);
 }
 
-scity.addEventListener("click", getCoords);
+scity.addEventListener("click", function(){
+  event.preventDefault();
+  let citySave = JSON.parse(localStorage.getItem('search'))||[];
+    citySave.push(currCityName);
+    localStorage.setItem('search', JSON.stringify(citySave));
+    searchHistory()
+getCoords()
+});
+searchHistory();
