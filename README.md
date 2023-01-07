@@ -16,7 +16,7 @@ Show currant weather along with a 5 day forcast for chosen city.
 Trip planner
 
 ## Screeshot
-![Screenshot]()
+![Screenshot](./assits/Capture.PNG)
 
 ## Access
 
